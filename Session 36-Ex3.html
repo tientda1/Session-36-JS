@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chọn màu nền</title>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        height: 100vh;
+        flex-direction: column;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+      button {
+        width: 80px;
+        height: 40px;
+        margin: 10px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        color: white;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Chọn màu nền bạn yêu thích</h1>
+    <div>
+      <button style="background-color: #e74c3c;" onclick="changeColor('#e74c3c')">Đỏ</button>
+      <button style="background-color: #3498db;" onclick="changeColor('#3498db')">Xanh</button>
+      <button style="background-color: #f1c40f; color: black;" onclick="changeColor('#f1c40f')">Vàng</button>
+      <button style="background-color: #9b59b6;" onclick="changeColor('#9b59b6')">Tím</button>
+    </div>
+    <br /><br />
+    <p style="color: grey;">Trang sẽ ghi nhớ màu bạn đã chọn kể cả khi tải lại</p>
+
+    <script>
+      function changeColor(color) {
+        document.body.style.backgroundColor = color;
+        localStorage.setItem('bgColor', color);
+      }
+
+      window.onload = function () {
+        const savedColor = localStorage.getItem('bgColor');
+        if (savedColor) {
+          document.body.style.backgroundColor = savedColor;
+        }
+      };
+    </script>
+  </body>
+</html>
