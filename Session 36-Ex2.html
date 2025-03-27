@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh sách món ăn</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        height: 100vh;
+        background-color: #f4f4f4;
+      }
+      .container {
+        background: white;
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        gap: 10px;
+        border-radius: 10px;
+        width: 350px;
+        margin-top: 10px;
+      }
+      button {
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        width: 80px;
+        height: 30px;
+        cursor: pointer;
+      }
+      img {
+        border-radius: 7px;
+        width: 150px;
+        height: 130px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Bạn thích món nào nhất?</h1>
+    <div id="food-list"></div>
+    <script>
+      const foods = [
+        {
+          name: "Bún bò Huế",
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Bun-Bo-Hue-from-Huong-Giang-2011.jpg/1200px-Bun-Bo-Hue-from-Huong-Giang-2011.jpg",
+        },
+        {
+          name: "Phở bò Hà Nội",
+          image: "https://cdn.pastaxi-manager.onepas.vn/content/uploads/articles/01-Phuong-Mon%20ngon&congthuc/1.%20pho%20ha%20noi/canh-nau-pho-ha-noi-xua-mang-huong-vi-kinh-do-cua-80-nam-ve-truoc-1.jpg",
+        },
+        {
+          name: "Cơm tấm Sài Gòn",
+          image: "https://static.vinwonders.com/production/com-tam-sai-gon-thumb.jpg",
+        },
+      ];
+
+      function loadLikes() {
+        return JSON.parse(localStorage.getItem("likes")) || {};
+      }
+
+      function saveLikes(likes) {
+        localStorage.setItem("likes", JSON.stringify(likes));
+      }
+
+      function renderFoods() {
+        const foodList = document.getElementById("food-list");
+        foodList.innerHTML = "";
+        const likes = loadLikes();
+
+        foods.forEach((food, index) => {
+          if (!(index in likes)) likes[index] = 0;
+          
+          const container = document.createElement("div");
+          container.classList.add("container");
+
+          container.innerHTML = `
+            <img src="${food.image}" alt="${food.name}" />
+            <div>
+              <h2>${food.name}</h2>
+              <span>❤️${likes[index]} lượt thích</span><br /><br />
+              <button onclick="likeFood(${index})">Thích +1</button>
+            </div>
+          `;
+          
+          foodList.appendChild(container);
+        });
+
+        saveLikes(likes);
+      }
+
+      function likeFood(index) {
+        const likes = loadLikes();
+        likes[index] = (likes[index] || 0) + 1;
+        saveLikes(likes);
+        renderFoods();
+      }
+
+      renderFoods();
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>
